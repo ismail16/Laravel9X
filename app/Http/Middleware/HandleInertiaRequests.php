@@ -15,6 +15,16 @@ class HandleInertiaRequests extends Middleware
      */
     protected $rootView = 'app';
 
+    // Set root template via method
+    public function rootView(Request $request)
+    {
+        if ($request->routeIs('admin.*')) {
+            return 'admin';
+        }else{
+            return 'app';
+        }
+    }
+
     /**
      * Determine the current asset version.
      *

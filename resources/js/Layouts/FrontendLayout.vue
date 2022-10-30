@@ -40,7 +40,14 @@
                             <li><a href="#">Drop Down 4</a></li>
                         </ul>
                     </li>
-
+                    <li>
+                        <Link
+                            :href="route('contact')"
+                            class="nav-link scrollto"
+                        >
+                            Contact
+                        </Link>
+                    </li>
                     <li>
                         <Link :href="route('login')" class="nav-link scrollto">
                             Login

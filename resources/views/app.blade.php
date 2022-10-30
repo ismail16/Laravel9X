@@ -30,6 +30,9 @@
     <link href="{{ asset('frontend/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{ asset('backend/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/plugins/toastr/toastr.min.css') }}">
+
     <!-- Template Main CSS File -->
     <link href="{{ asset('frontend/assets/css/style.css') }}" rel="stylesheet">
 
@@ -46,6 +49,7 @@
 
 
 <!-- Vendor JS Files -->
+<script src="https://usebootstrap.com/preview-no-frame/adminlte-v3/plugins/jquery/jquery.min.js"></script>
 <script src="{{ asset('frontend/assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
 <script src="{{ asset('frontend/assets/vendor/aos/aos.js') }}"></script>
 <script src="{{ asset('frontend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -56,6 +60,19 @@
 
 <!-- Template Main JS File -->
 <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
+
+<script src="{{ asset('backend/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ asset('backend/plugins/toastr/toastr.min.js') }}"></script>
+<script>
+    $(function() {
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
+    });
+</script>
 
 
 

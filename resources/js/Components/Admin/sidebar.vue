@@ -26,7 +26,7 @@
                         data-accordion="true"
                     >
                         <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
-                        <li class="nav-item has-treeview">
+                        <!-- <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
@@ -48,7 +48,16 @@
                                     </a>
                                 </li>
                             </ul>
+                        </li> -->
+                        <li class="nav-item">
+                            <Link
+                                :href="route('admin.category.index')"
+                                class="nav-link text-light"
+                            >
+                                <i class="nav-icon fas fa-edit"></i> Category
+                            </Link>
                         </li>
+
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
@@ -69,10 +78,11 @@
     </div>
 </template>
 
-<script>
-export default {
-    mounted() {
-        $('[data-widget="treeview"]').Treeview("init");
-    },
-};
+<script setup>
+import { Link } from "@inertiajs/inertia-vue3";
+// export default {
+//     mounted() {
+//         $('[data-widget="treeview"]').Treeview("init");
+//     },
+// };
 </script>

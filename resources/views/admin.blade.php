@@ -14,11 +14,17 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
-
     <!-- Scripts -->
     @routes
     @vite('resources/js/admin.js')
     @inertiaHead
+
+    <!-- DataTables -->
+    <link rel="stylesheet"
+        href="https://adminlte.io/themes/v3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet"
+        href="https://adminlte.io/themes/v3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
 </head>
 
 <body class="font-sans antialiased">
@@ -34,6 +40,10 @@
 <script src="https://usebootstrap.com/preview-no-frame/adminlte-v3/dist/js/adminlte.min.js"></script>
 
 
-
+<!-- DataTables -->
+<script src="https://adminlte.io/themes/v3/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="https://adminlte.io/themes/v3/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://adminlte.io/themes/v3/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="https://adminlte.io/themes/v3/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 
 </html>

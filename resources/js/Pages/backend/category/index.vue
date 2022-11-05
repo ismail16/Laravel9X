@@ -35,18 +35,41 @@
                                 </Link>
                             </div>
                             <table
-                                id="example"
+                                id="DataTable"
                                 class="table table-bordered table-striped"
                             >
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>User ID</th>
-                                        <th>Title</th>
-                                        <th>Status</th>
+                                        <th>name</th>
+                                        <th>image</th>
+                                        <th>description</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody>
+                                    <tr v-for="(cate, index) in category" :key="index">
+                                        <td>{{ cate.id }}</td>
+                                        <td>{{ cate.name }}</td>
+                                        <td>
+
+                                            <img
+                                                :src="'/images/category/'+cate.image"
+                                                class="w-25"
+                                                alt=""
+                                            />
+                                        </td>
+                                        <td v-html="cate.description"></td>
+                                        <td class="text-center">
+                                            <Link :href="route('admin.category.edit', cate.id )" class="btn btn-sm btn-primary m-1">
+                                                <i class="fa fa-edit"></i>
+                                            </Link>
+                                            <button @click="destroy(cate.id)" class="btn btn-sm btn-danger m-1">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -56,41 +79,32 @@
     </AdminLayout>
 </template>
 
-<script setup>
+<script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Link } from "@inertiajs/inertia-vue3";
-</script>
+import { Inertia } from '@inertiajs/inertia';
 
-<script>
-import axios from "axios";
 export default {
     components: {
-        AdminLayout,
-    },
-    props: {
-        // user: Object,
+        AdminLayout, Link
     },
 
-    data() {
-        return {};
+    props:{
+        category: Array,
+    },
+
+    setup(){
+        const destroy = (id) => {
+            if(confirm('Are you sure delete')){
+                Inertia.delete(route('admin.category.destroy', id))
+            }
+        }
+
+        return { destroy }
     },
 
     mounted() {
-        axios
-            .get("https://jsonplaceholder.typicode.com/todos")
-            .then((resp) => {
-                // this.table_data = resp.data;
-                $("#example").DataTable({
-                    data: resp.data,
-                    columns: [
-                        { data: "id" },
-                        { data: "userId" },
-                        { data: "title" },
-                        { data: "completed" },
-                    ],
-                });
-            })
-            .catch((error) => console.log(error));
+        $("#DataTable").DataTable();
     },
 };
 </script>

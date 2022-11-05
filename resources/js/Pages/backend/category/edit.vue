@@ -58,13 +58,13 @@
                                                 @change="previewImage"
                                                 ref="photo"
                                                 class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                                            />-->
+                                             <img
+                                                :src="'/images/category/'+this.category.image"
+                                                class="w-25"
+                                                alt=""
                                             />
-                                            <img
-                                                v-if="url"
-                                                :src="url"
-                                                class="w-full mt-4 h-80"
-                                            />
-                                            <div
+                                            <!-- <div
                                                 v-if="errors.image"
                                                 class="font-bold text-red-600"
                                             >
@@ -84,9 +84,9 @@
                                     </div>
                                 </div>
                                 <button class="btn btn-outline-primary" type="submit">
-                                    <i class="fa fa-plus"></i>  Save
+                                    <i class="fa fa-sync"></i>  Update
                                 </button>
-                                <Link href="/admin/category">
+                                <Link :href="route('admin.category.index')" class="btn btn-default ml-2">
                                     <i class="fa fa-window-close-o"></i> Cancel
                                 </Link>
                             </form>
@@ -99,61 +99,90 @@
     </AdminLayout>
 </template>
 
-<script>
+<script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { useForm, Link } from "@inertiajs/inertia-vue3";
+import { Link, useForm } from "@inertiajs/inertia-vue3";
+import { Inertia } from '@inertiajs/inertia';
 
-export default {
-    components: {
-        AdminLayout, Link
-    },
-    props: {
-        errors: Object,
-    },
+const props = defineProps({
+    category: Object,
+    // errors: Object,
+    image : String
+});
 
-    setup() {
-        const form = useForm({
-            name: null,
-            image: null,
-            description: null,
-        });
+const form = useForm({
+    name : props.category.name,
+    description : props.category.description,
+    image : null,
+})
 
-        const submit = () => {
-            form.post(route("admin.category.store"), {
-                onFinish: () => form.reset(),
-            });
-        };
+function submit() {
+    Inertia.post(`/admin/category/update/${props.category.id}`, {
+        _method: 'put',
+        name: form.name,
+        image: form.image,
+        description: form.description,
+    })
+}
 
-        return { form, submit }
-    },
-
-    mounted() {
-        let vit = this;
-        $("#description").summernote({
-            callbacks: {
-                onChange: function (contents, $editable) {
-                    vit.form.description = contents;
-                    console.log(contents);
-                },
-            },
-        });
-    },
-
-
-
-        data() {
-        return {
-            url: "",
-        };
-    },
-
-    methods: {
-
-
-        previewImage(e) {
-            const file = e.target.files[0];
-            this.url = URL.createObjectURL(file);
-        },
-    },
-};
 </script>
+
+
+// <script>
+// import AdminLayout from "@/Layouts/AdminLayout.vue";
+// import { Link, useForm } from "@inertiajs/inertia-vue3";
+// import { Inertia } from '@inertiajs/inertia';
+
+// export default {
+//     components: {
+//         AdminLayout, Link
+//     },
+//     props: {
+//         errors: Object,
+//         category : Object,
+//     },
+
+//     setup (props) {
+//         const form = useForm({
+//             id: props.category.id,
+//             name: props.category.name,
+//             image: null,
+//             description: props.category.description,
+//         });
+
+//         function submit() {
+//             Inertia.post(`/admin/category/update/${props.category.id}`, {
+//                 _method: 'put',
+//                 name: form.name,
+//                 image: form.image,
+//                 description: form.description,
+//             })
+//         }
+//         return { form, submit }
+//     },
+
+//     data() {
+//         return {
+//             url : this.category.image
+//         };
+//     },
+
+//     mounted() {
+//         let vit = this;
+//         $("#description").summernote({
+//             callbacks: {
+//                 onChange: function (contents, $editable) {
+//                     vit.form.description = contents;
+//                     console.log(contents);
+//                 },
+//             },
+//         });
+//     },
+//     methods: {
+//         previewImage(e) {
+//             const file = e.target.files[0];
+//             this.url = URL.createObjectURL(file);
+//         },
+//     },
+// };
+// </script>

@@ -11,6 +11,9 @@ use Inertia\Inertia;
 class PagesController extends Controller
 {
     public function index(){
+        // reload template layout
+        Inertia::version('app');
+
         return Inertia::render('frontend/index');
     }
 

@@ -25,6 +25,9 @@
     <link rel="stylesheet"
         href="https://adminlte.io/themes/v3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 
+    <!-- include summernote css/js -->
+    <link href="https://adminlte.io/themes/v3/plugins/summernote/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.ckeditor.com/4.20.0/standard/ckeditor.js"></script>
 </head>
 
 <body class="font-sans antialiased">
@@ -45,5 +48,8 @@
 <script src="https://adminlte.io/themes/v3/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://adminlte.io/themes/v3/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="https://adminlte.io/themes/v3/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
+<script src="https://adminlte.io/themes/v3/plugins/summernote/summernote-bs4.min.js"></script>
+
 
 </html>

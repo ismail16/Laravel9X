@@ -26,7 +26,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <form @submit.prevent="submit">
+                            <form @submit.prevent="updateCategory()">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -41,35 +41,38 @@
                                         </div>
                                     </div>
                                     <div class="col-6">
-                                        <div class="form-group">
-                                            <label for="">Image</label>
-                                            <input
-                                                type="file"
-                                                id="image"
-                                                name="image"
-                                                class="form-control"
-                                                @input="
-                                                    form.image =
-                                                        $event.target.files[0]
-                                                "
-                                            />
-                                            <!-- <input
-                                                type="file"
-                                                @change="previewImage"
-                                                ref="photo"
-                                                class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                                            />-->
-                                             <img
-                                                :src="'/images/category/'+this.category.image"
-                                                class="w-25"
-                                                alt=""
-                                            />
-                                            <!-- <div
-                                                v-if="errors.image"
-                                                class="font-bold text-red-600"
-                                            >
-                                                {{ errors.image }}
-                                            </div> -->
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="">Image</label>
+                                                    <input
+                                                        type="file"
+                                                        id="image"
+                                                        name="image"
+                                                        class="form-control"
+                                                        @change="previewImage"
+                                                        @input="
+                                                            form.image =
+                                                                $event.target.files[0]
+                                                        "
+                                                    />
+                                                    <div
+                                                        v-if="errors.image"
+                                                        class="font-bold text-red-600"
+                                                    >
+                                                        {{ errors.image }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <img
+                                                        :src="url"
+                                                        class="w-50"
+                                                        alt=""
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -83,14 +86,19 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn-outline-primary" type="submit">
-                                    <i class="fa fa-sync"></i>  Update
+                                <button
+                                    class="btn btn-outline-primary"
+                                    type="submit"
+                                >
+                                    <i class="fa fa-sync"></i> Update
                                 </button>
-                                <Link :href="route('admin.category.index')" class="btn btn-default ml-2">
+                                <Link
+                                    :href="route('admin.category.index')"
+                                    class="btn btn-default ml-2"
+                                >
                                     <i class="fa fa-window-close-o"></i> Cancel
                                 </Link>
                             </form>
-
                         </div>
                     </div>
                 </div>
@@ -99,90 +107,68 @@
     </AdminLayout>
 </template>
 
-<script setup>
+<script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
-import { Inertia } from '@inertiajs/inertia';
+import { Inertia } from "@inertiajs/inertia";
 
-const props = defineProps({
-    category: Object,
-    // errors: Object,
-    image : String
-});
+export default {
+    components: {
+        AdminLayout,
+        Link,
+    },
 
-const form = useForm({
-    name : props.category.name,
-    description : props.category.description,
-    image : null,
-})
+    props: {
+        category: Object,
+        errors: Object,
+        image: String,
+    },
 
-function submit() {
-    Inertia.post(`/admin/category/update/${props.category.id}`, {
-        _method: 'put',
-        name: form.name,
-        image: form.image,
-        description: form.description,
-    })
-}
+    setup(props) {
+        const form = useForm({
+            name: props.category.name,
+            description: props.category.description,
+            image: null,
+        });
 
+        function updateCategory() {
+            Inertia.post(`/admin/category/${props.category.id}`, {
+                _method: "put",
+                name: form.name,
+                image: form.image,
+                description: form.description,
+            });
+        };
+
+        return { form, updateCategory};
+    },
+
+    data() {
+        return {
+            url: this.image,
+        };
+    },
+
+    mounted() {
+        let vit = this;
+        $("#description").summernote({
+            height: 150,
+            callbacks: {
+                onChange: function (contents, $editable) {
+                    vit.form.description = contents;
+                    console.log(contents);
+                },
+            },
+        });
+    },
+    methods: {
+
+        previewImage(e) {
+            console.log('hello');
+            const file = e.target.files[0];
+            this.url = URL.createObjectURL(file);
+        },
+        
+    },
+};
 </script>
-
-
-// <script>
-// import AdminLayout from "@/Layouts/AdminLayout.vue";
-// import { Link, useForm } from "@inertiajs/inertia-vue3";
-// import { Inertia } from '@inertiajs/inertia';
-
-// export default {
-//     components: {
-//         AdminLayout, Link
-//     },
-//     props: {
-//         errors: Object,
-//         category : Object,
-//     },
-
-//     setup (props) {
-//         const form = useForm({
-//             id: props.category.id,
-//             name: props.category.name,
-//             image: null,
-//             description: props.category.description,
-//         });
-
-//         function submit() {
-//             Inertia.post(`/admin/category/update/${props.category.id}`, {
-//                 _method: 'put',
-//                 name: form.name,
-//                 image: form.image,
-//                 description: form.description,
-//             })
-//         }
-//         return { form, submit }
-//     },
-
-//     data() {
-//         return {
-//             url : this.category.image
-//         };
-//     },
-
-//     mounted() {
-//         let vit = this;
-//         $("#description").summernote({
-//             callbacks: {
-//                 onChange: function (contents, $editable) {
-//                     vit.form.description = contents;
-//                     console.log(contents);
-//                 },
-//             },
-//         });
-//     },
-//     methods: {
-//         previewImage(e) {
-//             const file = e.target.files[0];
-//             this.url = URL.createObjectURL(file);
-//         },
-//     },
-// };
-// </script>

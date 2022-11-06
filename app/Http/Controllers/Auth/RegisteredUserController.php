@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
+use PhpParser\Node\Stmt\TryCatch;
 
 class RegisteredUserController extends Controller
 {
@@ -46,10 +47,17 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+       
 
-        Auth::login($user);
+        try {
+            event(new Registered($user));
+            return redirect('/admin/dashboard');
+        } catch (\Throwable $th) {
+            return redirect('/register');
+        }
 
-        return redirect(RouteServiceProvider::HOME);
+        // Auth::login($user);
+
+        // return redirect(RouteServiceProvider::HOME);
     }
 }

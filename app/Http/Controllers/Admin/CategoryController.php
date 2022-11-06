@@ -52,21 +52,20 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         // $category = Category::find($id);
-        return Inertia('backend/category/edit', compact('category'));
+        // return Inertia('backend/category/edit', compact('category'));
+
+        return Inertia::render('backend/category/edit', [
+            'category' => $category,
+            'image' => asset('images/category/'. $category->image)
+        ]);
+
     }
 
     public function update(Request $request, $id)
     {
 
-        // return $request->file('image');
-
-        // return $id;
 
         $category = Category::find($id);
-
-        // return $category;
-
-
         $image = $request->file('image');
         if (isset($image)){
             $imagename = Str::slug($request->name).'-'.rand(10,100).'.'.$image->getClientOriginalExtension();
@@ -76,11 +75,8 @@ class CategoryController extends Controller
             $image->move('images/category',$imagename);
             $category->image = $imagename;
         }
-
-
         $category->name = $request->name;
         $category->description = $request->description;
-
         $category->save();
         return redirect()->route('admin.category.index');
     }

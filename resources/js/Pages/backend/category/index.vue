@@ -55,7 +55,7 @@
 
                                             <img
                                                 :src="'/images/category/'+cate.image"
-                                                class="w-25"
+                                                class="w-50"
                                                 alt=""
                                             />
                                         </td>
@@ -105,6 +105,7 @@ export default {
 
     mounted() {
         $("#DataTable").DataTable();
+        console.log(this.$refs.infoBox.offsetHeight);
     },
 };
 </script>
